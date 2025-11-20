@@ -27,7 +27,7 @@ const Navbar = () => {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-7 sm:px-6">
         {/* Logo */}
         <Link href="/">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5">
             <Logo />
             <span className="text-4xl font-bold">Medicare</span>
           </div>

@@ -1,3 +1,4 @@
+import Footer from "@/components/shared/Footer";
 import Navbar from "@/components/shared/Navbar";
 
 interface IProps {
@@ -13,7 +14,9 @@ const PublicLayout = ({ children }: IProps) => {
 
       <main className="grow px-1 mx-auto max-w-7xl">{children}</main>
 
-      <footer></footer>
+      <footer>
+        <Footer />
+      </footer>
     </div>
   );
 };
