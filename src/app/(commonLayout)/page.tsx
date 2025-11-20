@@ -1,9 +1,9 @@
-import Navbar from "@/components/shared/Navbar";
+import HeroSection from "@/components/modules/Home/HeroSection";
 
 const App = () => {
   return (
     <div>
-      <Navbar />
+      <HeroSection />
     </div>
   );
 };
