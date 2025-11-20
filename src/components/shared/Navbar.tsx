@@ -12,6 +12,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Separator } from "../ui/separator";
 import Logo from "./Logo";
+import ModeToggle from "./ModeToggle";
 
 const Navbar = () => {
   // Navigation links
@@ -23,7 +24,7 @@ const Navbar = () => {
 
   return (
     <header className="bg-background sticky top-0 z-50">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-7 sm:px-6">
+      <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 px-4 py-7 sm:px-6">
         {/* Logo */}
         <Link href="/">
           <div className="flex items-center gap-1">
@@ -32,7 +33,7 @@ const Navbar = () => {
           </div>
         </Link>
 
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-2.5">
           {/* Desktop Nav */}
           <nav className="text-muted-foreground flex items-center gap-6 font-medium max-md:hidden">
             {navLinks?.map((item, idx) => (
@@ -43,8 +44,14 @@ const Navbar = () => {
           </nav>
 
           {/* Login Button */}
-          <Separator orientation="vertical" className="h-6! max-md:hidden" />
-          <Button className="max-md:hidden px-6 text-base h-10">Login</Button>
+          <Separator
+            orientation="vertical"
+            className="h-6! mx-4 max-md:hidden"
+          />
+          <Button className="max-md:hidden px-6 text-base">Login</Button>
+
+          {/* Dark Mode Toggler */}
+          <ModeToggle />
 
           {/* Mobile Menu Button */}
           <nav className="relative">
@@ -55,7 +62,7 @@ const Navbar = () => {
                 </Button>
               </DropdownMenuTrigger>
 
-              <DropdownMenuContent className="w-52 -right-4.5 absolute border p-3">
+              <DropdownMenuContent className="w-52 -right-4.5 absolute border p-3 md:hidden">
                 {navLinks?.map((item, idx) => (
                   <DropdownMenuItem key={idx} className="cursor-pointer">
                     <Link href={item?.href} className="hover:text-primary">
