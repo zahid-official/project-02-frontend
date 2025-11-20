@@ -1,7 +1,6 @@
 "use client";
 
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { BorderBeam } from "@/components/ui/border-beam";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +21,6 @@ const HeroSection = () => {
                 <Sparkles size={15} />
                 Welcome to Medicare
               </span>
-              <BorderBeam />
             </div>
 
             <h1 id="hero-heading" className="sm:text-5xl text-4xl font-bold">
