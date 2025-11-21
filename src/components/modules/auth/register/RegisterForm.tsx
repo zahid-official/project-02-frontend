@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -23,6 +25,18 @@ const RegisterForm = () => {
   // useActionState hook
   const [state, formAction, isPending] = useActionState(registerPatient, null);
   console.log(state);
+
+  const getFieldError = (fieldName: string) => {
+    if (state && state?.errors) {
+      const fieldError = state?.errors?.find(
+        (error: any) => error.field === fieldName
+      );
+      return fieldError?.message;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <form action={formAction} className="mt-2">
       <FieldGroup className="gap-4">
@@ -31,13 +45,11 @@ const RegisterForm = () => {
           <FieldLabel className="ml-1" htmlFor="name">
             Name
           </FieldLabel>
-          <Input
-            id="name"
-            name="name"
-            type="text"
-            placeholder="John Doe"
-            required
-          />
+          <Input id="name" name="name" type="text" placeholder="John Doe" />
+
+          {getFieldError("name") && (
+            <FieldError>{getFieldError("name")}</FieldError>
+          )}
         </Field>
 
         {/* Email */}
@@ -50,8 +62,11 @@ const RegisterForm = () => {
             name="email"
             type="email"
             placeholder="m@example.com"
-            required
           />
+
+          {getFieldError("email") && (
+            <FieldError>{getFieldError("email")}</FieldError>
+          )}
         </Field>
 
         {/* Password */}
@@ -64,8 +79,11 @@ const RegisterForm = () => {
             name="password"
             type="password"
             placeholder="********"
-            required
           />
+
+          {getFieldError("password") && (
+            <FieldError>{getFieldError("password")}</FieldError>
+          )}
         </Field>
 
         <div className="flex items-center gap-2">
@@ -79,8 +97,11 @@ const RegisterForm = () => {
               name="phone"
               type="number"
               placeholder="+880 1900-111222"
-              required
             />
+
+            {getFieldError("phone") && (
+              <FieldError>{getFieldError("phone")}</FieldError>
+            )}
           </Field>
 
           {/* Gender */}
@@ -95,6 +116,10 @@ const RegisterForm = () => {
                 <SelectItem value="FEMALE">Female</SelectItem>
               </SelectContent>
             </Select>
+
+            {getFieldError("gender") && (
+              <FieldError>{getFieldError("gender")}</FieldError>
+            )}
           </Field>
         </div>
 

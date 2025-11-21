@@ -7,7 +7,7 @@ import z from "zod";
 const loginZodSchema = z.object({
   // Email
   email: z
-    .email({ error: "Email is required." })
+    .email({ error: "Invalid email format." })
     .min(5, { error: "Email must be at least 5 characters long." })
     .max(100, { error: "Email cannot exceed 100 characters." })
     .trim(),

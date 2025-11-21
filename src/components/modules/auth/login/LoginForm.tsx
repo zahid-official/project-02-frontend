@@ -21,10 +21,10 @@ const LoginForm = () => {
 
   const getFieldError = (fieldName: string) => {
     if (state && state?.errors) {
-      const errorMessage = state?.errors?.find(
+      const fieldError = state?.errors?.find(
         (error: any) => error.field === fieldName
       );
-      return errorMessage?.message;
+      return fieldError?.message;
     } else {
       return null;
     }
@@ -41,8 +41,8 @@ const LoginForm = () => {
             name="email"
             type="email"
             placeholder="m@example.com"
-            required
           />
+          
           {getFieldError("email") && (
             <FieldError>{getFieldError("email")}</FieldError>
           )}
@@ -65,7 +65,6 @@ const LoginForm = () => {
             name="password"
             type="password"
             placeholder="********"
-            required
           />
 
           {getFieldError("password") && (
