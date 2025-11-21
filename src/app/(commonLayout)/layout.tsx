@@ -5,14 +5,14 @@ interface IProps {
   children: React.ReactNode;
 }
 
-const PublicLayout = ({ children }: IProps) => {
+const CommonLayout = ({ children }: IProps) => {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="w-full mx-auto sticky top-0 bg-background/90 z-50">
         <Navbar />
       </header>
 
-      <main className="grow px-1 mx-auto max-w-7xl">{children}</main>
+      <main className="grow px-1 mx-auto max-w-7xl w-full">{children}</main>
 
       <footer>
         <Footer />
@@ -21,4 +21,4 @@ const PublicLayout = ({ children }: IProps) => {
   );
 };
 
-export default PublicLayout;
+export default CommonLayout;

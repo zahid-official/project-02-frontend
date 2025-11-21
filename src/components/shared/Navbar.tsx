@@ -13,13 +13,18 @@ import {
 import { Separator } from "../ui/separator";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
+  // useRouter hook
+  const router = useRouter();
+
   // Navigation links
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "About Us", href: "/about-us" },
-    { label: "Contacts", href: "/contacts" },
+    { label: "About Us", href: "/about" },
+    { label: "Contacts", href: "/contact" },
+    { label: "Consultation", href: "/consultation" },
   ];
 
   return (
@@ -48,7 +53,12 @@ const Navbar = () => {
             orientation="vertical"
             className="h-6! mx-4 max-md:hidden"
           />
-          <Button className="max-md:hidden px-6 text-base">Login</Button>
+          <Button
+            onClick={() => router.push("/login")}
+            className="max-md:hidden px-6 text-base"
+          >
+            Login
+          </Button>
 
           {/* Dark Mode Toggler */}
           <ModeToggle />
@@ -74,7 +84,12 @@ const Navbar = () => {
                 <DropdownMenuSeparator className="mt-2.5" />
 
                 <DropdownMenuItem className="bg-transparent! p-0">
-                  <Button className="w-full mt-1.5">Login</Button>
+                  <Button
+                    onClick={() => router.push("/login")}
+                    className="w-full mt-1.5"
+                  >
+                    Login
+                  </Button>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

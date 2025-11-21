@@ -1,6 +1,6 @@
-import HeroSection from "@/components/modules/Home/HeroSection";
+import HeroSection from "@/components/modules/home/HeroSection";
 
-const App = () => {
+const HomePage = () => {
   return (
     <div>
       <HeroSection />
@@ -8,4 +8,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default HomePage;

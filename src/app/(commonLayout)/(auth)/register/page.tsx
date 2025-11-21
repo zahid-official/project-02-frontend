@@ -1,0 +1,38 @@
+import RegisterForm from "@/components/modules/auth/register/RegisterForm";
+import RegisterLottie from "@/components/modules/auth/register/RegisterLottie";
+import { Card, CardContent } from "@/components/ui/card";
+
+const RegisterPage = () => {
+  return (
+    <div className="bg-muted flex flex-col items-center justify-center px-6 md:p-32">
+      <div className="w-full max-w-sm md:max-w-4xl">
+        <div className="flex flex-col gap-6">
+          <Card className="overflow-hidden p-0">
+            <CardContent className="grid p-0 md:grid-cols-2">
+              {/* Left Column */}
+              <div className="p-6 md:px-8 pt-13 pb-8">
+                {/* Heading */}
+                <div className="flex flex-col items-center gap-2 text-center">
+                  <h1 className="text-2xl font-bold">Register Now</h1>
+                  <p className="text-muted-foreground text-balance">
+                    Create your Medicare account today
+                  </p>
+                </div>
+
+                {/* Form */}
+                <RegisterForm />
+              </div>
+
+              {/* Right Column */}
+              <div className="bg-muted relative hidden md:block">
+                <RegisterLottie />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RegisterPage;
