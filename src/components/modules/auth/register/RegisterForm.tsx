@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -6,7 +8,6 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
-import Link from "next/link";
 import {
   Select,
   SelectContent,
@@ -14,17 +15,30 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import registerPatient from "@/services/auth/registerPatient";
+import Link from "next/link";
+import { useActionState } from "react";
 
+// RegisterForm Component
 const RegisterForm = () => {
+  // useActionState hook
+  const [state, formAction, isPending] = useActionState(registerPatient, null);
+  console.log(state);
   return (
-    <form className="mt-2">
+    <form action={formAction} className="mt-2">
       <FieldGroup className="gap-4">
         {/* Name */}
         <Field className="gap-1.5">
           <FieldLabel className="ml-1" htmlFor="name">
             Name
           </FieldLabel>
-          <Input id="name" type="text" placeholder="John Doe" required />
+          <Input
+            id="name"
+            name="name"
+            type="text"
+            placeholder="John Doe"
+            required
+          />
         </Field>
 
         {/* Email */}
@@ -32,7 +46,13 @@ const RegisterForm = () => {
           <FieldLabel className="ml-1" htmlFor="email">
             Email
           </FieldLabel>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+          />
         </Field>
 
         {/* Password */}
@@ -42,6 +62,7 @@ const RegisterForm = () => {
           </FieldLabel>
           <Input
             id="password"
+            name="password"
             type="password"
             placeholder="********"
             required
@@ -56,6 +77,7 @@ const RegisterForm = () => {
             </FieldLabel>
             <Input
               id="phone"
+              name="phone"
               type="number"
               placeholder="+880 1900-111222"
               required
@@ -65,7 +87,7 @@ const RegisterForm = () => {
           {/* Gender */}
           <Field className="gap-1.5">
             <FieldLabel className="ml-1">Gender</FieldLabel>
-            <Select>
+            <Select name="gender">
               <SelectTrigger>
                 <SelectValue placeholder="Gender" />
               </SelectTrigger>
@@ -79,7 +101,9 @@ const RegisterForm = () => {
 
         {/* Register Button */}
         <Field className="mt-3">
-          <Button type="submit">Register</Button>
+          <Button disabled={isPending} type="submit">
+            {isPending ? "Registering..." : "Register"}
+          </Button>
         </Field>
 
         <FieldDescription className="text-center">
