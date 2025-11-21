@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Button } from "@/components/ui/button";
 import {
   Field,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/components/ui/field";
@@ -16,6 +18,18 @@ const LoginForm = () => {
   // useActionState hook
   const [state, formAction, isPending] = useActionState(loginUser, null);
   console.log(state);
+
+  const getFieldError = (fieldName: string) => {
+    if (state && state?.errors) {
+      const errorMessage = state?.errors?.find(
+        (error: any) => error.field === fieldName
+      );
+      return errorMessage?.message;
+    } else {
+      return null;
+    }
+  };
+
   return (
     <form action={formAction}>
       <FieldGroup>
@@ -29,6 +43,9 @@ const LoginForm = () => {
             placeholder="m@example.com"
             required
           />
+          {getFieldError("email") && (
+            <FieldError>{getFieldError("email")}</FieldError>
+          )}
         </Field>
 
         {/* Password */}
@@ -50,6 +67,10 @@ const LoginForm = () => {
             placeholder="********"
             required
           />
+
+          {getFieldError("password") && (
+            <FieldError>{getFieldError("password")}</FieldError>
+          )}
         </Field>
 
         {/* Login Button */}
