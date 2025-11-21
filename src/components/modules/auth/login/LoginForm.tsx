@@ -1,3 +1,4 @@
+"use client";
 import { Button } from "@/components/ui/button";
 import {
   Field,
@@ -6,17 +7,28 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import loginUser from "@/services/auth/loginUser";
 import Link from "next/link";
+import { useActionState } from "react";
 
 // LoginForm Component
 const LoginForm = () => {
+  // useActionState hook
+  const [state, formAction, isPending] = useActionState(loginUser, null);
+  console.log(state);
   return (
-    <form>
+    <form action={formAction}>
       <FieldGroup>
         {/* Email */}
         <Field>
           <FieldLabel htmlFor="email">Email</FieldLabel>
-          <Input id="email" type="email" placeholder="m@example.com" required />
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="m@example.com"
+            required
+          />
         </Field>
 
         {/* Password */}
@@ -33,6 +45,7 @@ const LoginForm = () => {
           </div>
           <Input
             id="password"
+            name="password"
             type="password"
             placeholder="********"
             required
@@ -41,7 +54,9 @@ const LoginForm = () => {
 
         {/* Login Button */}
         <Field>
-          <Button type="submit">Login</Button>
+          <Button disabled={isPending} type="submit">
+            {isPending ? "Logging..." : "Login"}
+          </Button>
         </Field>
 
         <FieldDescription className="text-center">

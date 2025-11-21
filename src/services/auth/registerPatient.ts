@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-
 import envVars from "@/config/envVars";
 
 // registerPatient Function
@@ -23,6 +22,7 @@ const registerPatient = async (
     const newFormData = new FormData();
     newFormData.append("data", JSON.stringify(registerData));
 
+    // Send POST request to patient create endpoint
     const res = await fetch(`${envVars.backend_url}/patient/create`, {
       method: "POST",
       body: newFormData,
