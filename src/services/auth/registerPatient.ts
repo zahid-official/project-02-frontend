@@ -74,7 +74,6 @@ const registerPatient = async (
     // Validate data with Zod schema before sending request to backend API
     const validateData = registerZodSchema.safeParse(registerData);
 
-    console.log(validateData?.error?.issues?.map((is) => console.log(is)));
     if (!validateData.success) {
       return {
         success: false,
