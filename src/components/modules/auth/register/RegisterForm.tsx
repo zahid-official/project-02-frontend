@@ -24,7 +24,6 @@ import { useActionState } from "react";
 const RegisterForm = () => {
   // useActionState hook
   const [state, formAction, isPending] = useActionState(registerPatient, null);
-  console.log(state);
 
   const getFieldError = (fieldName: string) => {
     if (state && state?.errors) {

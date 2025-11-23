@@ -17,7 +17,6 @@ import { useActionState } from "react";
 const LoginForm = () => {
   // useActionState hook
   const [state, formAction, isPending] = useActionState(loginUser, null);
-  console.log(state);
 
   const getFieldError = (fieldName: string) => {
     if (state && state?.errors) {
