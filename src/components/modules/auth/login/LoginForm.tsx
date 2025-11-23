@@ -14,7 +14,7 @@ import Link from "next/link";
 import { useActionState } from "react";
 
 // LoginForm Component
-const LoginForm = () => {
+const LoginForm = ({ redirect }: { redirect?: string }) => {
   // useActionState hook
   const [state, formAction, isPending] = useActionState(loginUser, null);
 
@@ -31,6 +31,9 @@ const LoginForm = () => {
 
   return (
     <form action={formAction}>
+      {/* Add redirect path data to formData by hidden input */}
+      {redirect && <Input type="hidden" name="redirect" value={redirect} />}
+
       <FieldGroup>
         {/* Email */}
         <Field>
@@ -41,7 +44,7 @@ const LoginForm = () => {
             type="email"
             placeholder="m@example.com"
           />
-          
+
           {getFieldError("email") && (
             <FieldError>{getFieldError("email")}</FieldError>
           )}

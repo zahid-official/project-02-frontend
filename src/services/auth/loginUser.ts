@@ -1,8 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 import envVars from "@/config/envVars";
+import {
+  getDefaultDashboardRoute,
+  isValidRedirectRole,
+  UserRole,
+} from "@/utils/protectedRoutes";
 import { parse } from "cookie";
+import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 import z from "zod";
 
 // Zod schema
@@ -24,6 +31,8 @@ const loginZodSchema = z.object({
 // loginUser Function
 const loginUser = async (_previousState: any, formData: any): Promise<any> => {
   try {
+    const redirectTo = formData.get("redirect") || null;
+
     const loginData = {
       email: formData.get("email"),
       password: formData.get("password"),
@@ -91,10 +100,31 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
       path: refreshTokenData.path || "/",
     });
 
-    // Return response data
-    const data = await res.json();
-    return data;
-  } catch (error) {
+    // Verify access token and get user role
+    const verifiedToken = jwt.verify(
+      accessTokenData.accessToken,
+      envVars.jwt.access_secret
+    );
+
+    if (typeof verifiedToken === "string") {
+      throw new Error("Invalid token provided, authorization denied");
+    }
+
+    const userRole: UserRole = verifiedToken?.role;
+
+    if (redirectTo) {
+      const validRole = isValidRedirectRole(redirectTo, userRole);
+      if (validRole) {
+        redirect(redirectTo);
+      } else {
+        redirect(getDefaultDashboardRoute(userRole));
+      }
+    }
+  } catch (error: any) {
+    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
     return { error };
   }
 };

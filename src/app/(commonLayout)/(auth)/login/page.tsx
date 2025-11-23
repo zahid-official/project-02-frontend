@@ -2,7 +2,14 @@ import LoginForm from "@/components/modules/auth/login/LoginForm";
 import LoginLottie from "@/components/modules/auth/login/LoginLottie";
 import { Card, CardContent } from "@/components/ui/card";
 
-const LoginPage = () => {
+interface IProps {
+  searchParams?: Promise<{ redirect?: string }>;
+}
+
+// LoginPage Component
+const LoginPage = async ({ searchParams }: IProps) => {
+  const params = await searchParams;
+
   return (
     <div className="bg-muted flex flex-col items-center justify-center px-6 md:p-32">
       <div className="w-full max-w-sm md:max-w-4xl">
@@ -20,7 +27,7 @@ const LoginPage = () => {
                 </div>
 
                 {/* Form */}
-                <LoginForm />
+                <LoginForm redirect={params?.redirect} />
               </div>
 
               {/* Right Column */}
