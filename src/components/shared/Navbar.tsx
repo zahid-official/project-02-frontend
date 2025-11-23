@@ -1,5 +1,3 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
 import { Menu } from "lucide-react";
 import Link from "next/link";
@@ -13,12 +11,10 @@ import {
 import { Separator } from "../ui/separator";
 import Logo from "./Logo";
 import ModeToggle from "./ModeToggle";
-import { useRouter } from "next/navigation";
+import { getCookies } from "@/services/auth/cookies";
+import LogoutButton from "../modules/auth/logout/LogoutButton";
 
-const Navbar = () => {
-  // useRouter hook
-  const router = useRouter();
-
+const Navbar = async () => {
   // Navigation links
   const navLinks = [
     { label: "Home", href: "/" },
@@ -26,6 +22,9 @@ const Navbar = () => {
     { label: "Contacts", href: "/contact" },
     { label: "Consultation", href: "/consultation" },
   ];
+
+  // Get AccessToken
+  const accessToken = await getCookies("accessToken");
 
   return (
     <header className="bg-background sticky top-0 z-50">
@@ -48,17 +47,18 @@ const Navbar = () => {
             ))}
           </nav>
 
-          {/* Login Button */}
+          {/* Login & Logout Button */}
           <Separator
             orientation="vertical"
             className="h-6! mx-4 max-md:hidden"
           />
-          <Button
-            onClick={() => router.push("/login")}
-            className="max-md:hidden px-6 text-base"
-          >
-            Login
-          </Button>
+          {accessToken ? (
+            <LogoutButton />
+          ) : (
+            <Link href={"/login"}>
+              <Button className="max-md:hidden px-6 text-base">Login</Button>
+            </Link>
+          )}
 
           {/* Dark Mode Toggler */}
           <ModeToggle />
@@ -82,14 +82,15 @@ const Navbar = () => {
                 ))}
 
                 <DropdownMenuSeparator className="mt-2.5" />
-
+                {/* Login & Logout Button */}
                 <DropdownMenuItem className="bg-transparent! p-0">
-                  <Button
-                    onClick={() => router.push("/login")}
-                    className="w-full mt-1.5"
-                  >
-                    Login
-                  </Button>
+                  {accessToken ? (
+                    <LogoutButton />
+                  ) : (
+                    <Link href={"/login"}>
+                      <Button className="w-full mt-1.5">Login</Button>
+                    </Link>
+                  )}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
