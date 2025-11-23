@@ -58,7 +58,14 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
         "Content-Type": "application/json",
       },
     });
+    const result = await res.json();
 
+    // Handle unsuccessful login
+    if (!result.success) {
+      throw new Error("Failed to login user. Please try again.");
+    }
+
+    // Handle successful login
     let accessTokenData: Record<string, string> | undefined;
     let refreshTokenData: Record<string, string> | undefined;
     const setCookieHeaders = res.headers.getSetCookie();
@@ -105,13 +112,12 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
       accessTokenData.accessToken,
       envVars.jwt.access_secret
     );
-
     if (typeof verifiedToken === "string") {
       throw new Error("Invalid token provided, authorization denied");
     }
 
+    // Redirect user based on role and redirectTo parameter
     const userRole: UserRole = verifiedToken?.role;
-
     if (redirectTo) {
       const validRole = isValidRedirectRole(redirectTo, userRole);
       if (validRole) {
@@ -120,6 +126,8 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
         redirect(getDefaultDashboardRoute(userRole));
       }
     }
+
+    redirect(getDefaultDashboardRoute(userRole));
   } catch (error: any) {
     // Re-throw NEXT_REDIRECT errors so Next.js can handle them
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {

@@ -2,6 +2,7 @@
 "use server";
 import envVars from "@/config/envVars";
 import z from "zod";
+import loginUser from "./loginUser";
 
 // Zod schema
 const registerZodSchema = z.object({
@@ -92,10 +93,21 @@ const registerPatient = async (
     const res = await fetch(`${envVars.backend_url}/patient/create`, {
       method: "POST",
       body: newFormData,
-    }).then((res) => res.json());
+    });
+    const result = await res.json();
 
-    return res;
-  } catch (error) {
+    // If registration is successful, login the user automatically
+    if (result.success) {
+      await loginUser(_previousState, formData);
+    }
+
+    return result;
+  } catch (error: any) {
+    // Re-throw NEXT_REDIRECT errors so Next.js can handle them
+    if (error?.digest?.startsWith("NEXT_REDIRECT")) {
+      throw error;
+    }
+
     return { error };
   }
 };
