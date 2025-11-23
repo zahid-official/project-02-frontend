@@ -8,9 +8,9 @@ import {
 } from "@/utils/protectedRoutes";
 import { parse } from "cookie";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
+import { setCookies } from "./cookies";
 
 // Zod schema
 const loginZodSchema = z.object({
@@ -88,24 +88,8 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
     }
 
     // Set cookies in the response
-    const cookieStore = await cookies();
-    cookieStore.set({
-      name: "accessToken",
-      value: accessTokenData.accessToken,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: accessTokenData.path || "/",
-    });
-
-    cookieStore.set({
-      name: "refreshToken",
-      value: refreshTokenData.refreshToken,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: refreshTokenData.path || "/",
-    });
+    await setCookies("accessToken", accessTokenData.accessToken);
+    await setCookies("refreshToken", refreshTokenData.refreshToken);
 
     // Verify access token and get user role
     const verifiedToken = jwt.verify(
