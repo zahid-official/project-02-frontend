@@ -50,6 +50,7 @@ const HeroSection = () => {
               src="https://res.cloudinary.com/ddbsm0sjt/image/upload/1654_svnwdp.jpg"
               alt="Hero section visual"
               fill
+              sizes="fill"
               priority
               className="h-full w-full rounded-lg object-cover"
             />

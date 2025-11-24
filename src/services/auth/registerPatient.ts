@@ -108,7 +108,14 @@ const registerPatient = async (
       throw error;
     }
 
-    return { error };
+    return {
+      success: false,
+      message: `${
+        envVars.node_env === "development"
+          ? error?.message
+          : "Registration failed! Please try again."
+      }`,
+    };
   }
 };
 

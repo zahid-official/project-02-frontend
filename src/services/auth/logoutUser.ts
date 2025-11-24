@@ -8,7 +8,6 @@ const logoutUser = async () => {
   await deleteCookies("accessToken");
   await deleteCookies("refreshToken");
 
-  redirect("login");
-};
+  redirect("/login?loggedOut=true");};
 
 export default logoutUser;

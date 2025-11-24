@@ -18,7 +18,8 @@ import {
 } from "@/components/ui/select";
 import registerPatient from "@/services/auth/registerPatient";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 // RegisterForm Component
 const RegisterForm = () => {
@@ -35,6 +36,13 @@ const RegisterForm = () => {
       return null;
     }
   };
+
+  // Use effect to handle state toast messages
+  useEffect(() => {
+    if (state && !state.success) {
+      toast.error(state?.message || "Someting went wrong!");
+    }
+  }, [state]);
 
   return (
     <form action={formAction} className="mt-2">

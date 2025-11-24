@@ -62,7 +62,9 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
 
     // Handle unsuccessful login
     if (!result.success) {
-      throw new Error("Failed to login user. Please try again.");
+      throw new Error(
+        result.message || "Failed to login user. Please try again."
+      );
     }
 
     // Handle successful login
@@ -105,19 +107,27 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
     if (redirectTo) {
       const validRole = isValidRedirectRole(redirectTo, userRole);
       if (validRole) {
-        redirect(redirectTo);
+        redirect(`${redirectTo}?loggedIn=true`);
       } else {
-        redirect(getDefaultDashboardRoute(userRole));
+        redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
       }
     }
 
-    redirect(getDefaultDashboardRoute(userRole));
+    redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
   } catch (error: any) {
     // Re-throw NEXT_REDIRECT errors so Next.js can handle them
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
-    return { error };
+
+    return {
+      success: false,
+      message: `${
+        envVars.node_env === "development"
+          ? error?.message
+          : "Invalid email or password! Please try again."
+      }`,
+    };
   }
 };
 
