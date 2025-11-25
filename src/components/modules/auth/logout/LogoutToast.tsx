@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 
 // LogoutTosat Component
-const LogoutTosat = () => {
+const LogoutToast = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,4 +20,4 @@ const LogoutTosat = () => {
   return null;
 };
 
-export default LogoutTosat;
+export default LogoutToast;

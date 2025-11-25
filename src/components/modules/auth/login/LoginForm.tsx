@@ -33,10 +33,9 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
   // Use effect to handle state toast messages
   useEffect(() => {
     if (state && !state.success) {
-      toast.error(state?.message || "Someting went wrong!");
+      toast.error(state?.message || "Something went wrong!");
     }
   }, [state]);
-
   return (
     <form action={formAction}>
       {/* Add redirect path data to formData by hidden input */}
