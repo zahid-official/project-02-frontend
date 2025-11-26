@@ -11,7 +11,8 @@ import {
 import { Input } from "@/components/ui/input";
 import loginUser from "@/services/auth/loginUser";
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { toast } from "sonner";
 
 // LoginForm Component
 const LoginForm = ({ redirect }: { redirect?: string }) => {
@@ -29,6 +30,12 @@ const LoginForm = ({ redirect }: { redirect?: string }) => {
     }
   };
 
+  // Use effect to handle state toast messages
+  useEffect(() => {
+    if (state && !state.success) {
+      toast.error(state?.message || "Something went wrong!");
+    }
+  }, [state]);
   return (
     <form action={formAction}>
       {/* Add redirect path data to formData by hidden input */}

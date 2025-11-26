@@ -8,9 +8,9 @@ import {
 } from "@/utils/protectedRoutes";
 import { parse } from "cookie";
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import z from "zod";
+import { setCookies } from "./cookies";
 
 // Zod schema
 const loginZodSchema = z.object({
@@ -58,7 +58,16 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
         "Content-Type": "application/json",
       },
     });
+    const result = await res.json();
 
+    // Handle unsuccessful login
+    if (!result.success) {
+      throw new Error(
+        result.message || "Failed to login user. Please try again."
+      );
+    }
+
+    // Handle successful login
     let accessTokenData: Record<string, string> | undefined;
     let refreshTokenData: Record<string, string> | undefined;
     const setCookieHeaders = res.headers.getSetCookie();
@@ -81,51 +90,44 @@ const loginUser = async (_previousState: any, formData: any): Promise<any> => {
     }
 
     // Set cookies in the response
-    const cookieStore = await cookies();
-    cookieStore.set({
-      name: "accessToken",
-      value: accessTokenData.accessToken,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: accessTokenData.path || "/",
-    });
-
-    cookieStore.set({
-      name: "refreshToken",
-      value: refreshTokenData.refreshToken,
-      httpOnly: true,
-      secure: true,
-      sameSite: "none",
-      path: refreshTokenData.path || "/",
-    });
+    await setCookies("accessToken", accessTokenData.accessToken);
+    await setCookies("refreshToken", refreshTokenData.refreshToken);
 
     // Verify access token and get user role
     const verifiedToken = jwt.verify(
       accessTokenData.accessToken,
       envVars.jwt.access_secret
     );
-
     if (typeof verifiedToken === "string") {
       throw new Error("Invalid token provided, authorization denied");
     }
 
+    // Redirect user based on role and redirectTo parameter
     const userRole: UserRole = verifiedToken?.role;
-
     if (redirectTo) {
       const validRole = isValidRedirectRole(redirectTo, userRole);
       if (validRole) {
-        redirect(redirectTo);
+        redirect(`${redirectTo}?loggedIn=true`);
       } else {
-        redirect(getDefaultDashboardRoute(userRole));
+        redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
       }
     }
+
+    redirect(`${getDefaultDashboardRoute(userRole)}?loggedIn=true`);
   } catch (error: any) {
     // Re-throw NEXT_REDIRECT errors so Next.js can handle them
     if (error?.digest?.startsWith("NEXT_REDIRECT")) {
       throw error;
     }
-    return { error };
+
+    return {
+      success: false,
+      message: `${
+        envVars.node_env === "development"
+          ? error?.message
+          : "Invalid email or password! Please try again."
+      }`,
+    };
   }
 };
 
