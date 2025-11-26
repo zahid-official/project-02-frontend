@@ -1,7 +1,10 @@
+import LoginToast from "@/components/modules/auth/login/LoginToast";
+import LogoutToast from "@/components/modules/auth/logout/LogoutToast";
+import { Toaster } from "@/components/ui/sonner";
+import { ThemeProvider } from "@/providers/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +38,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <Toaster richColors />
+          <LoginToast />
+          <LogoutToast />
         </ThemeProvider>
       </body>
     </html>

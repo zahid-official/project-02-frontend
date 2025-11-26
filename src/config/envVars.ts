@@ -1,6 +1,7 @@
 // envVars Function
 interface EnvConfig {
   backend_url: string;
+  node_env: string;
   jwt: {
     access_secret: string;
     access_expiresin: string;
@@ -13,6 +14,7 @@ const loadEnvs = (): EnvConfig => {
     "NEXT_PUBLIC_BACKEND_URL",
     "JWT_ACCESS_TOKEN_SECRET",
     "JWT_ACCESS_TOKEN_EXPIRESIN",
+    "NODE_ENV",
   ];
 
   requiredEnvs.forEach((key) => {
@@ -24,6 +26,7 @@ const loadEnvs = (): EnvConfig => {
   // Return validated envs
   return {
     backend_url: process.env.NEXT_PUBLIC_BACKEND_URL as string,
+    node_env: process.env.NODE_ENV as string,
     jwt: {
       access_secret: process.env.JWT_ACCESS_TOKEN_SECRET as string,
       access_expiresin: process.env.JWT_ACCESS_TOKEN_EXPIRESIN as string,

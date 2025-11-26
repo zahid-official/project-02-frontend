@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import envVars from "./config/envVars";
+import { deleteCookies, getCookies } from "./services/auth/cookies";
 import {
   getDefaultDashboardRoute,
   getRouteAccessRole,
@@ -11,16 +11,15 @@ import {
 
 // This function can be marked `async` if using `await` inside
 export const proxy = async (request: NextRequest) => {
-  const accessToken = request.cookies.get("accessToken")?.value || null;
+  const accessToken = await getCookies("accessToken");
   const pathname = request?.nextUrl?.pathname;
-  const cookieStore = await cookies();
 
   let userRole: UserRole | null = null;
   if (accessToken) {
     const verifiedToken = jwt.verify(accessToken, envVars.jwt.access_secret);
     if (typeof verifiedToken === "string") {
-      cookieStore.delete("accessToken");
-      cookieStore.delete("refreshToken");
+      await deleteCookies("accessToken");
+      await deleteCookies("refreshToken");
       return NextResponse.redirect(new URL("/login", request.url));
     }
 
