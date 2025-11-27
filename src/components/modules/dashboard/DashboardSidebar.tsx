@@ -11,7 +11,7 @@ const DashboardSidebar = async () => {
   const navItems: NavSection[] = [];
 
   return (
-    <div className="max-w-64 border min-h-[calc(100vh-4.2rem)]">
+    <div className="max-w-72 w-full border min-h-screen">
       <SidebarDynamicContent
         userInfo={userInfo}
         navItems={navItems}

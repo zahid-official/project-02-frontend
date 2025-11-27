@@ -8,6 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { usePathname } from "next/navigation";
 import { Bell } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import Logo from "@/components/shared/Logo";
 
 interface IProps {
   userInfo: UserInfo;
@@ -22,7 +23,17 @@ const SidebarDynamicContent = ({
 }: IProps) => {
   const pathname = usePathname();
   return (
-    <div className="hidden md:flex h-full w-64 flex-col border-r bg-card">
+    <div className="hidden md:flex h-full flex-col  border-r bg-card">
+      {/* Left Side */}
+      <div className="flex h-20 items-center justify-center border-b px-6">
+        <Link href={dashboardHome}>
+          <div className="flex items-center gap-1.5">
+            <Logo />
+            <span className="text-4xl font-bold">Medicare</span>
+          </div>
+        </Link>
+      </div>
+
       {/* Navigation */}
       <ScrollArea className="flex-1 px-3 py-4">
         <nav className="space-y-6">

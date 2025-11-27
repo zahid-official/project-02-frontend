@@ -1,32 +1,16 @@
 "use client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Bell, Search } from "lucide-react";
 import { UserInfo } from "../../../../types/userInfo.interface";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
 import UserDropDown from "./UserDropDown";
-import Link from "next/link";
-import Logo from "@/components/shared/Logo";
 
 // NavbarDynamicContent Component
-const NavbarDynamicContent = ({
-  userInfo,
-  dashboardHome,
-}: {
-  userInfo: UserInfo;
-  dashboardHome: string;
-}) => {
+const NavbarDynamicContent = ({ userInfo }: { userInfo: UserInfo }) => {
   return (
     <div>
       <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur">
         <div className="flex h-16 items-center justify-between gap-4 px-4 md:px-12">
-          {/* Left Side */}
-          <Link href={dashboardHome}>
-            <div className="flex items-center gap-1.5">
-              <Logo />
-              <span className="text-4xl font-bold">Medicare</span>
-            </div>
-          </Link>
-
           {/* Search Bar */}
           <div className="flex-1">
             <div className="relative">
