@@ -19,7 +19,7 @@ const DashboardLayout = ({ children }: IProps) => {
         </header>
 
         {/* Main */}
-        <main>{children}</main>
+        <main className="sm:px-8 py-5 p-3">{children}</main>
       </div>
     </div>
   );
