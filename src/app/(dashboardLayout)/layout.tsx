@@ -8,17 +8,19 @@ interface IProps {
 // DashboardLayout Component
 const DashboardLayout = ({ children }: IProps) => {
   return (
-    <div className="min-h-screen">
-      {/* Dashboard Navbar */}
-      <header>
-        <DashboardNavbar />
-      </header>
+    <div className="min-h-screen flex">
+      {/* Sidebar */}
+      <DashboardSidebar />
 
-      {/* Main */}
-      <main className="flex">
-        <DashboardSidebar />
-        <div>{children}</div>
-      </main>
+      <div className="w-full">
+        {/* Dashboard Navbar */}
+        <header>
+          <DashboardNavbar />
+        </header>
+
+        {/* Main */}
+        <main className="sm:px-8 py-5 p-3">{children}</main>
+      </div>
     </div>
   );
 };
